@@ -8,11 +8,11 @@ Official implementation for Collaborative Agent Bench and SWEET-RL.
 
 ---
 
-[Yifei Zhou](https://yifeizhou02.github.io/), [Song Jiang](https://songjiang0909.github.io/), [Yuandong Tian](https://yuandong-tian.com/), [Jason Weston](https://ai.meta.com/people/1163645124801199/jason-weston/), [Sergey Levine](https://people.eecs.berkeley.edu/~svlevine/), [Sainbayar Sukhbataar*](https://tesatory.github.io/), [Xian Li*](https://ai.meta.com/people/1804676186610787/xian-li/)
+[Yifei Zhou](https://yifeizhou02.github.io/), [Song Jiang](https://songjiang0909.github.io/), [Yuandong Tian](https://yuandong-tian.com/), [Jason Weston](https://ai.meta.com/people/1163645124801199/jason-weston/), [Sergey Levine](https://people.eecs.berkeley.edu/~svlevine/), [Sainbayar Sukhbaatar*](https://tesatory.github.io/), [Xian Li*](https://ai.meta.com/people/1804676186610787/xian-li/)
 <br>
 UC Berkeley, FAIR
 <br>
-*Equal advising, alphabetical order
+*Equal advising
 ![paper_teaser](paper_teaser.png)
 
 ## Collaborative Agent Bench
