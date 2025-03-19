@@ -42,12 +42,6 @@ class HumanInteractionEnv:
             result += str(d["content"]) + "\n\n\n\n"
         return result + "agent:"
 
-    # def str_dialogue_history(self):
-    #     result = ''
-    #     for d in self.dialogue_history:
-    #         result += str(d["role"]) + ':\n'
-    #         result += str(d["content"]) + '\n\n\n\n'
-    #     return result + "agent:\n"
 
     def reset(self, problem_description, hidden_information):
         self.problem_description = str(problem_description)
@@ -100,8 +94,7 @@ class HumanInteractionEnv:
         self.steps += 1
         if self.done:
             return None, 0, True
-        # if "human:" in response:
-        #     response = response.split("human:")[0]
+
         raw_response = response
 
         if "OUTPUT:" in response:

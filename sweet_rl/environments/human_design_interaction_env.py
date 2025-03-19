@@ -83,7 +83,6 @@ class HumanDesignInteractionEnv(HumanInteractionEnv):
             }
         )
         return self.get_dialogue_history()
-        # return self.str_dialogue_history()
 
     def invoke_model(self, agent_output, agent_image=None):
         for _ in range(3):
@@ -138,9 +137,7 @@ class HumanDesignInteractionEnv(HumanInteractionEnv):
             except openai.BadRequestError as e:
                 print("Bad request error, retrying...")
                 return "No response."
-            # except openai.InternalServerError as e:
-            #     print("Internal server error, retrying...")
-            #     return "No response."
+
 
     def step(self, response, formatted_prompt=None):
         self.steps += 1
@@ -185,4 +182,3 @@ class HumanDesignInteractionEnv(HumanInteractionEnv):
                 {"role": "user", "content": answer[:HUMAN_RESPONSE_CHARACTER_LIMIT]}
             )
         return self.get_dialogue_history() if not self.done else None, 0, self.done
-        # return self.str_dialogue_history() if not self.done else None, 0, self.done

@@ -22,7 +22,6 @@ from vllm import LLM, SamplingParams
 
 
 def batch_interact_environment(agent, environments, tasks):
-    # import IPython; IPython.embed(); exit(1)
     with concurrent.futures.ThreadPoolExecutor() as executor:
         jobs = [
             executor.submit(
@@ -32,11 +31,8 @@ def batch_interact_environment(agent, environments, tasks):
         ]
         batch_obs = [job.result() for job in jobs]
     for j in range(environments[0].max_steps + 1):  # just to be safe
-        # print(f"Length of batch_obs: {len(batch_obs)}")
         formatted_prompts, responses = agent.get_action(batch_obs)
-        # print(f"Length of formatted_prompts: {len(formatted_prompts)}")
-        # print(f"Length of responses: {len(responses)}")
-        # print(f"Length of environments: {len(environments)}")
+
         assert len(formatted_prompts) == len(responses)
         assert len(formatted_prompts) == len(environments)
         with concurrent.futures.ThreadPoolExecutor() as executor:

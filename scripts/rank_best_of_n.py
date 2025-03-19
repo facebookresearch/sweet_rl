@@ -23,7 +23,7 @@ def formatting_func(input, output):
         "You are a reward model judging the quality of this collaboration between an agent and a human user. Here is the interaction:"
         + input
         + output
-    )  # + "THE GROUND TRUTH IS: " + example["ground_truth"] + eos_token
+    )  
     return prompt
 
 
@@ -70,7 +70,6 @@ def main(
     }
     llm = LLM(**llm_args)
     tokenizer = AutoTokenizer.from_pretrained(model_id)
-    # reward_model = RewardModelProxy(model_id)
     judge_sampling_params = SamplingParams(
         temperature=0.5,
         # top_p=1,
@@ -95,13 +94,9 @@ def main(
                 )
             all_prompts.append(prompt)
             all_ground_truths.append(ground_truth)
-    # assert len(all_prompts) == len(reference_judge_results)
     for j in tqdm(range(0, len(all_prompts), save_steps * best_of_n)):
         print(f"======> Invoking llm model {j}")
 
-        # #for openrlhf trained reward model
-        # judge_outputs = reward_model.get_reward(all_prompts[j:j+100*best_of_n])
-        # judge_results = torch.tensor(judge_outputs).reshape(-1, best_of_n)
         judge_outputs = llm.generate(
             all_prompts[j : j + save_steps * best_of_n],
             judge_sampling_params,

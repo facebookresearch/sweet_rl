@@ -110,16 +110,10 @@ def main(
                     chosen = preference_pair["chosen"]["dialogue_history"][-1]
                     ground_truth = preference_pair["chosen"]["task"]["ground_truth"]
                     chosen = chosen["input"] + chosen["output"]
-                    # {
-                    #     "input": chosen["input"],
-                    #     "output": chosen["output"]
-                    # }
+
                     rejected = preference_pair["rejected"]["dialogue_history"][-1]
                     rejected = rejected["input"] + rejected["output"]
-                    # {
-                    #     "input": rejected["input"],
-                    #     "output": rejected["output"]
-                    # }
+
                     fb.write(
                         json.dumps({"chosen": chosen, "rejected": rejected}) + "\n"
                     )

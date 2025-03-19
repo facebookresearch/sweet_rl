@@ -68,9 +68,6 @@ def main(
                     for j, driver in enumerate(drivers)
                 ]
                 rendered_images += [job.result() for job in jobs]
-        # with concurrent.futures.ThreadPoolExecutor() as executor:
-        #     jobs = [executor.submit(render_full_html, driver, ground_truth_images[i], "/fsx-ram/yifeizhou/collab_llm/driver_cache", i) for i, driver in enumerate(drivers)]
-        #     rendered_images += [job.result() for job in jobs]
         for d in drivers:
             d.quit()
         ground_truth_images = [
@@ -120,15 +117,12 @@ def main(
     )
 
     preference_pairs = []
-    # best_correctness_indices = []
     if preference_path is not None or ground_truth_preference_path is not None:
         for i in range(num_tasks):
-            #  if np.max(raw_correctness_results[:, i]) >= 1:
             best_correctness_index = (
                 num_tasks * np.argmax(raw_correctness_results[:, i]) + i
             )
-            # best_correctness_indices.append(best_correctness_index)
-            # put failed trajectories to be rejected and the best trajectory to be accepted
+
             for j in range(k):
                 for j2 in range(j + 1, k):
                     if (
@@ -153,11 +147,7 @@ def main(
                                 "rejected": annotation_results[num_tasks * j + i],
                             }
                         )
-                # if j != np.argmax(raw_correctness_results[:, i]) and raw_correctness_results[j, i] < np.max(raw_correctness_results[:, i]): #force a gap of 0.2 here
-                #     preference_pairs.append({
-                #         "chosen": annotation_results[best_correctness_index],
-                #         "rejected": annotation_results[num_tasks*j + i],
-                #     })
+
         print(f"Number of preference pairs: {len(preference_pairs)}")
 
         dummy_log = {

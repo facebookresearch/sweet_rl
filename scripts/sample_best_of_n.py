@@ -27,7 +27,7 @@ def main(
     temperature=1.0,
     best_of_n=16,
     data_fraction=1.0,
-):  # "/fsx-ram/shared/Meta-Llama-3.1-8B-Instruct",):
+): 
 
     tensor_parallel_size = torch.cuda.device_count()
     print(f"tensor_parallel_size: {tensor_parallel_size}")
@@ -55,8 +55,6 @@ def main(
                     }
                 )
     data = flatten_data
-    # data = [{"input": d["dialogue_history"][-1]["response"], "hidden_information": d["hidden_information"]} for d in data]
-    # data = data[:len(data)//1000]
 
     for d in data:
         d["additional_outputs"] = []
@@ -77,9 +75,7 @@ def main(
         # use_beam_search=False,
     )
     all_messages = [d["input"] for d in data]
-    # for i in tqdm(range(best_of_n)):
     outputs = llm.generate(all_messages, sampling_params, use_tqdm=True)
-    # import IPython; IPython.embed(); exit(1)
     for d, output in zip(data, outputs):
         for o in output.outputs:
             all_logprobs = []
@@ -99,7 +95,6 @@ def main(
 
     with open(output_path, "w") as fb:
         for d in output_results:
-            # if "additional_output" in d:
             fb.write(json.dumps(d) + "\n")
 
 

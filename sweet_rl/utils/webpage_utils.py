@@ -6,9 +6,6 @@ LICENSE file in the root directory of this source tree.
 """
 
 import os
-# # Save the HTML snippet to a temporary file
-# with open("temp_page.html", "w") as file:
-#     file.write(html_snippet)
 import re
 import time
 import traceback
@@ -16,9 +13,6 @@ import traceback
 from selenium import webdriver
 from selenium.webdriver import FirefoxOptions
 from selenium.webdriver.firefox.service import Service
-
-# # Your HTML code snippet
-# html_snippet = "<html> \n <head> \n <title>NTFS Disk Issue with TimeMachine</title> \n </head> \n <body> \n <h1>My NTFS Disk Suddenly Became Read-Only with TimeMachine</h1> \n <p>Gain write access to NTFS disks on MacOS by installing third-party drivers like Tuxera NTFS.</p> \n <p>Causes: TimeMachine attempted to clean the disk resulting in a read-only state.</p> \n <p>Solution Steps: </p> \n <ol> \n <li>Install a third-party NTFS driver, such as Tuxera NTFS.</li> \n <li>Use the driver to gain write access to the disk.</li> \n </ol> \n </body> \n </html>"
 
 
 
@@ -51,42 +45,16 @@ def get_driver():
     # Set up Chrome options
     options = FirefoxOptions()
     options.add_argument("--headless")
-    options.binary_location = "/home/yifeizhou/opt/google/chrome/firefox/firefox"
-    # options.add_argument('--log-level=3')
-    # service = Service(log_path=os.devnull)  # Redirect logs to nowhere
-    # Set up the Firefox driver
     driver = webdriver.Firefox(options=options)
     return driver
 
-    # chrome_options.add_argument("--no-sandbox")
-    # chrome_options.add_argument("--disable-dev-shm-usage")
 
-    # # Set up the Chrome driver
-    # service = Service(chrome_driver_path)  # Update with your path to chromedriver
-    # driver = webdriver.Chrome(service=service, options=chrome_options)
-    # return driver
 
 
 def render_full_html(driver, html_snippet, temp_path, env_id=0):
-    # asyncio.set_event_loop_policy(asyncio.DefaultEventLoopPolicy())
-    # # Apply the nest_asyncio patch
-    # nest_asyncio.apply()
+
     current_time = time.time()
-    # image_path = os.path.join(temp_path, f"{env_id}_{current_time}.png")
-    # import IPython; IPython.embed()
-    # HTML(string=html_snippet).write_pdf(image_path)
-    # return image_path
-    # return render_html_and_capture_screenshot(html_snippet, )
-    # try:
-    #     # Try to get the current event loop
-    #     loop = asyncio.get_event_loop()
-    # except RuntimeError:
-    #     # If there is no event loop, create a new one
-    #     loop = asyncio.new_event_loop()
-    #     asyncio.set_event_loop(loop)
-    # return loop.run_until_complete(
-    # render_html_and_capture_screenshot(html_snippet, os.path.join(temp_path, f"{env_id}_{current_time}.png"))
-    # )
+
 
     html_file_path = os.path.join(temp_path, f"{env_id}_{current_time}.html")
     image_path = os.path.join(temp_path, f"{env_id}_{current_time}.png")
@@ -100,17 +68,6 @@ def render_full_html(driver, html_snippet, temp_path, env_id=0):
         driver.get(f"file://{html_file_path}")
         driver.get_full_page_screenshot_as_file(image_path)
 
-        # # Wait for the page to load completely
-        # time.sleep(1)  # Adjust the sleep time as needed
-
-        # total_height = driver.execute_script("return document.body.parentNode.scrollHeight")
-        # total_width = driver.execute_script("return document.body.parentNode.scrollWidth")
-        # # # Set the window size to the dimensions of the page
-        # driver.set_window_size(total_width, total_height)
-
-        # time.sleep(1)
-        # # Take a screenshot
-        # driver.save_screenshot(image_path)
         os.remove(html_file_path)
         return image_path
     except Exception as e:
