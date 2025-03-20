@@ -3,7 +3,7 @@
 Official implementation for Collaborative Agent Bench and SWEET-RL.
 
 <p align="center">
-| <a href="xx"><b>Paper</b></a> | <a href="https://huggingface.co/datasets/facebook/collaborative_agent_bench"><b>Data</b></a> |
+| <a href="https://arxiv.org/abs/2503.15478"><b>Paper</b></a> | <a href="https://huggingface.co/datasets/facebook/collaborative_agent_bench"><b>Data</b></a> |
 </p>
 
 ---
@@ -249,7 +249,17 @@ SWEET-RL is CC-By-NC licensed, as found in the LICENSE file.
 
 ## Citation
 If you find our benchmark or algorithm useful, please consider citing:
-
+```bibtex
+@misc{zhou2025sweetrltrainingmultiturnllm,
+      title={SWEET-RL: Training Multi-Turn LLM Agents on Collaborative Reasoning Tasks}, 
+      author={Yifei Zhou and Song Jiang and Yuandong Tian and Jason Weston and Sergey Levine and Sainbayar Sukhbaatar and Xian Li},
+      year={2025},
+      eprint={2503.15478},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2503.15478}, 
+}
+```
 
 
 
