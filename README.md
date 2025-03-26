@@ -133,10 +133,10 @@ python visualizers/visualize_design_dialogue_histories.py /path/for/output/temp_
 Now we provide an example script for running SWEET-RL on Backend Programming. This part assumes that you have set up the environment for Backend Programming.
 First set up the paths for loading data and saving intermediate results.
 ```bash
-DATA_PATH=/fsx-ram/yifeizhou/collab_llm/outputs/nov24_train20000_shorter_templatefixed_annotated.jsonl
+DATA_PATH=/xxx/colbench_code_offline_15k_llama8b.jsonl
 
-OUTPUT_DIR=/fsx-ram/yifeizhou/collab_llm/outputs
-CHECKPOINT_DIR=/fsx-ram/yifeizhou/collab_llm/checkpoints
+OUTPUT_DIR=/xxx/collab_llm/outputs
+CHECKPOINT_DIR=/xxx/collab_llm/checkpoints
 ```
 The intermediate data and checkpoints will be saved to:
 ```bash
