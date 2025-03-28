@@ -31,7 +31,7 @@ pip install -e .
 This should have set up the environment for Backend Programming, and it uses a custom fork of openrlhf to support multi-turn DPO and length normalization. 
 Optionally, if you also wish to run Frontend Design, you need to install GeckoDriver and Firefox in your system(e.g. https://www.mozilla.org/en-US/firefox/all/desktop-release/ and the command below). 
 ```bash
-wget https://github.com/mozilla/geckodriver/releases/download/v0.35.0/geckodriver-v0.36.0-linux64.tar.gz
+wget https://github.com/mozilla/geckodriver/releases/download/v0.35.0/geckodriver-v0.35.0-linux64.tar.gz
 tar -xvzf geckodriver-v0.35.0-linux64.tar.gz
 sudo mv geckodriver /usr/local/bin/
 ```
