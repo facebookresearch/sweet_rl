@@ -51,7 +51,7 @@ huggingface-cli download facebook/collaborative_agent_bench colbench_code.jsonl 
 ### Testing Your Model on CollaborativeAgentBench
 #### Backend Programming
 
-For testing on Backend Programming, you need to first set up an VLLM server as the simulation for human collaborator. To do that, simply run:
+For testing on Backend Programming, you need to first set up a VLLM server as the simulation for human collaborator. To do that, simply run:
 ```bash
 python -m vllm.entrypoints.openai.api_server --model /path/to/llama3.1-70b-instruct --max-model-len 16384 --tensor-parallel-size 8 --gpu-memory-utilization=0.85 --max-num-seqs 16 --port 8000 --enforce-eager --trust-remote-code 
 ```
@@ -105,7 +105,7 @@ with open(test_tasks_pathh, "w") as f:
 
 ```
 
-For testing on Frontend Design, you need to first set up an VLLM server as the simulation for human collaborator. To do that, simply run:
+For testing on Frontend Design, you need to first set up a VLLM server as the simulation for human collaborator. To do that, simply run:
 ```bash
 python -m vllm.entrypoints.openai.api_server --model /path/to/Qwen2-VL-72B-Instruct --max-model-len 16384 --tensor-parallel-size 8 --gpu-memory-utilization=0.85 --max-num-seqs 16 --port 8000 --enforce-eager --limit-mm-per-prompt image=2 --trust-remote-code 
 ```
