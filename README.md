@@ -45,7 +45,7 @@ Note that it is possible to install Firefox and GeckoDriver without sudo access 
 
 To download data, run:
 ```bash
-huggingface-cli download facebook/collaborative_agent_bench colbench_code.jsonl colbench_code_offline_15k_llama8b.jsonl
+huggingface-cli download facebook/collaborative_agent_bench backend_tasks/train.jsonl backend_tasks/test.jsonl colbench_code_offline_15k_llama8b.jsonl
 ```
 
 ### Testing Your Model on CollaborativeAgentBench
