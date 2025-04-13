@@ -99,7 +99,7 @@ with open(train_tasks_path, "w") as f:
     for d in filtered_data[:10000]:
         f.write(json.dumps(d) + "\n")
 
-with open(test_tasks_pathh, "w") as f:
+with open(test_tasks_path, "w") as f:
     for d in filtered_data[10000:]:
         f.write(json.dumps(d) + "\n")
 
