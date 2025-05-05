@@ -145,60 +145,6 @@ class HumanDesignInteractionEnv(HumanInteractionEnv):
                 print("Bad request error, retrying...")
                 return "No response."
 
-
-      def invoke_gpt_model(self, agent_output, agent_image=None):
-        # for _ in range(3):
-            # try:
-                user_message = [
-                    {"type": "text", "text": self.human_prompt},
-                ]  # .format(problem_description=self.problem_description, agent_output=agent_output)},]
-                if agent_image is not None:
-                    user_message.append(
-                        {
-                            "type": "text",
-                            "text": "Below is the design the agent is referring to.",
-                        }
-                    )
-                    user_message.append(
-                        {
-                            "type": "image_url",
-                            "image_url": {"url": encode_image(agent_image, self.gpt_client)},
-                        }
-                    )
-                else:
-                    user_message.append(
-                        {
-                            "type": "text",
-                            "text": "The agent did not provide any visualization.",
-                        }
-                    )
-
-                user_message.append(
-                    {
-                        "type": "text",
-                        "text": "Below is the ground truth design that the human user wants.",
-                    }
-                )
-                user_message.append(
-                    {
-                        "type": "image_url",
-                        "image_url": {"url": self.b64_ground_truth_design},
-                    }
-                )
-
-                messages = [
-                    {"role": "user", "content": user_message},
-                ]
-                completion = self.client.chat.completions.create(
-                    model=self.model_id,
-                    messages=messages,
-                    max_tokens=4096,
-                    temperature=0,
-                )
-                return completion.choices[0].message.content
-
-  
-
     def step(self, response, formatted_prompt=None):
         self.steps += 1
         if self.b64_ground_truth_design is None:
@@ -237,10 +183,7 @@ class HumanDesignInteractionEnv(HumanInteractionEnv):
         )
 
         if not self.done:
-            if not self.gpt_client:
-              answer = self.invoke_model(response, agent_image)
-            else:
-              answer = self.invoke_gpt_model(response, agent_image)
+            answer = self.invoke_model(response, agent_image)
             self.dialogue_history.append(
                 {"role": "user", "content": answer[:HUMAN_RESPONSE_CHARACTER_LIMIT]}
             )
