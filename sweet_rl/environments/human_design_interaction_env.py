@@ -182,7 +182,7 @@ class HumanDesignInteractionEnv(HumanInteractionEnv):
             if self.invoke_client is None:
               answer = self.invoke_model(response, agent_image)
             else:
-              answer = self.invoke_client(response, agent_image)
+              answer = self.invoke_client(self.client, response, agent_image)
             self.dialogue_history.append(
                 {"role": "user", "content": answer[:HUMAN_RESPONSE_CHARACTER_LIMIT]}
             )
