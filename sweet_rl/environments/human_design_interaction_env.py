@@ -33,6 +33,7 @@ class HumanDesignInteractionEnv(HumanInteractionEnv):
         env_id=0,
         max_steps: int = 10,
         temp_path="~/.cache",
+        invoke_client=None,
     ):
         super().__init__(
             client=client,
@@ -43,6 +44,7 @@ class HumanDesignInteractionEnv(HumanInteractionEnv):
         )
         self.driver = get_driver()
         self.temp_path = temp_path
+        self.invoke_client = invoke_client
 
     def str_dialogue_history(self):
         result = ""
@@ -177,7 +179,10 @@ class HumanDesignInteractionEnv(HumanInteractionEnv):
         )
 
         if not self.done:
-            answer = self.invoke_model(response, agent_image)
+            if self.invoke_client is None:
+              answer = self.invoke_model(response, agent_image)
+            else:
+              answer = self.invoke_client(response, agent_image)
             self.dialogue_history.append(
                 {"role": "user", "content": answer[:HUMAN_RESPONSE_CHARACTER_LIMIT]}
             )
