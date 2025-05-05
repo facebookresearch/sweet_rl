@@ -17,11 +17,15 @@ HUMAN_RESPONSE_CHARACTER_LIMIT = 1000
 import base64
 
 
-def encode_image(image_path):
+def encode_image(image_path, gpt_client = False):
     with open(image_path, "rb") as image_file:
+      if gpt_client:
+        base64_image = base64.b64encode(image_file.read()).decode('utf-8')
+        return f"data:image/jpeg;base64,{base64_image}"
+      else:
         return (
-            f"data:image;base64,{base64.b64encode(image_file.read()).decode('utf-8')}"
-        )
+              f"data:image;base64,{base64.b64encode(image_file.read()).decode('utf-8')}"
+          )
 
 
 class HumanDesignInteractionEnv(HumanInteractionEnv):
@@ -33,7 +37,7 @@ class HumanDesignInteractionEnv(HumanInteractionEnv):
         env_id=0,
         max_steps: int = 10,
         temp_path="~/.cache",
-        invoke_client=None,
+        gpt_client=False,
     ):
         super().__init__(
             client=client,
@@ -44,7 +48,8 @@ class HumanDesignInteractionEnv(HumanInteractionEnv):
         )
         self.driver = get_driver()
         self.temp_path = temp_path
-        self.invoke_client = invoke_client
+        # if we use gpt models, the model invoking format will be slightly different
+        self.gpt_client = gpt_client
 
     def str_dialogue_history(self):
         result = ""
@@ -73,7 +78,7 @@ class HumanDesignInteractionEnv(HumanInteractionEnv):
             self.b64_ground_truth_design = None
             self.done = True
         else:
-            self.b64_ground_truth_design = encode_image(self.ground_truth_design)
+            self.b64_ground_truth_design = encode_image(self.ground_truth_design, self.gpt_client)
         self.answer = "No answer"
         self.steps = 0
         self.done = False
@@ -102,7 +107,7 @@ class HumanDesignInteractionEnv(HumanInteractionEnv):
                     user_message.append(
                         {
                             "type": "image_url",
-                            "image_url": {"url": encode_image(agent_image)},
+                            "image_url": {"url": encode_image(agent_image, self.gpt_client)},
                         }
                     )
                 else:
@@ -140,6 +145,59 @@ class HumanDesignInteractionEnv(HumanInteractionEnv):
                 print("Bad request error, retrying...")
                 return "No response."
 
+
+      def invoke_gpt_model(self, agent_output, agent_image=None):
+        # for _ in range(3):
+            # try:
+                user_message = [
+                    {"type": "text", "text": self.human_prompt},
+                ]  # .format(problem_description=self.problem_description, agent_output=agent_output)},]
+                if agent_image is not None:
+                    user_message.append(
+                        {
+                            "type": "text",
+                            "text": "Below is the design the agent is referring to.",
+                        }
+                    )
+                    user_message.append(
+                        {
+                            "type": "image_url",
+                            "image_url": {"url": encode_image(agent_image, self.gpt_client)},
+                        }
+                    )
+                else:
+                    user_message.append(
+                        {
+                            "type": "text",
+                            "text": "The agent did not provide any visualization.",
+                        }
+                    )
+
+                user_message.append(
+                    {
+                        "type": "text",
+                        "text": "Below is the ground truth design that the human user wants.",
+                    }
+                )
+                user_message.append(
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": self.b64_ground_truth_design},
+                    }
+                )
+
+                messages = [
+                    {"role": "user", "content": user_message},
+                ]
+                completion = self.client.chat.completions.create(
+                    model=self.model_id,
+                    messages=messages,
+                    max_tokens=4096,
+                    temperature=0,
+                )
+                return completion.choices[0].message.content
+
+  
 
     def step(self, response, formatted_prompt=None):
         self.steps += 1
@@ -179,10 +237,10 @@ class HumanDesignInteractionEnv(HumanInteractionEnv):
         )
 
         if not self.done:
-            if self.invoke_client is None:
+            if not self.gpt_client:
               answer = self.invoke_model(response, agent_image)
             else:
-              answer = self.invoke_client(self.client, response, agent_image)
+              answer = self.invoke_gpt_model(response, agent_image)
             self.dialogue_history.append(
                 {"role": "user", "content": answer[:HUMAN_RESPONSE_CHARACTER_LIMIT]}
             )
